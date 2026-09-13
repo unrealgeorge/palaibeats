@@ -1,0 +1,43 @@
+services:
+  palaibeats:
+    build: .
+    image: palaibeats:latest
+    container_name: palaibeats
+    restart: unless-stopped
+
+    # network_mode: host is important on Raspberry Pi — Discord voice
+    # (UDP) connectivity is unreliable through Docker's default bridge
+    # networking on arm64/Raspberry Pi OS.
+    network_mode: host
+
+    environment:
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      GUILD_ID: ${GUILD_ID}
+      DJ_ROLE_NAME: ${DJ_ROLE_NAME:-DJ}
+      MUSIC_ROOT: /music
+      DB_PATH: /data/palaibeats.db
+      DEFAULT_VOLUME: ${DEFAULT_VOLUME:-0.5}
+      IDLE_TIMEOUT_SECONDS: ${IDLE_TIMEOUT_SECONDS:-300}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      HEALTH_CHECK_PORT: ${HEALTH_CHECK_PORT:-8181}
+
+    volumes:
+      # Your local music library. Subfolders = browsable categories/artists.
+      - ${MUSIC_PATH:-./music}:/music:ro
+      - palaibeats_data:/data
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import os,urllib.request; urllib.request.urlopen(f'http://localhost:{os.environ.get(\"HEALTH_CHECK_PORT\",\"8181\")}/healthz', timeout=3)",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  palaibeats_data:
