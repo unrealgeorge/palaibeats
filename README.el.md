@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo.png" width="200" alt="PalaiBeats logo">
+
 # PalaiBeats
 
 Ένα Discord music bot για έναν server, self-hosted. Τρέχει 24/7 σε Raspberry Pi με Docker.
