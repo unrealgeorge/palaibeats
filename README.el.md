@@ -68,7 +68,7 @@ Lavalink: μόνο ένα Docker container και τα δικά σου αρχε�
 ### 1. Κατέβασε τον κώδικα
 
 ```bash
-git clone https://github.com/<το-username-σου>/palaibeats.git
+git clone https://github.com/unrealgeorge/palaibeats.git
 cd palaibeats
 ```
 

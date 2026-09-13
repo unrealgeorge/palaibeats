@@ -65,7 +65,7 @@ container plus your own files.
 ### 1. Get the code
 
 ```bash
-git clone https://github.com/<your-username>/palaibeats.git
+git clone https://github.com/unrealgeorge/palaibeats.git
 cd palaibeats
 ```
 
