@@ -157,10 +157,42 @@ show up in Discord within a minute or two.
 
 ## Using radio stations
 
-`/radio add` needs the **direct audio stream URL**, not a station's
-website and not a `.pls`/`.m3u` playlist link. Many stations only
-publish a playlist file — open it in a text editor and look for a line
-like `File1=https://...`; that's the URL you want.
+`/radio add` needs the **direct audio stream URL** — a link that goes
+straight to the audio, not a station's website and not a `.pls`/`.m3u`
+playlist file. Here's how to find it.
+
+**Easiest: [radio-browser.info](https://www.radio-browser.info)** — a
+free, searchable directory of radio stream URLs. Search for the
+station by name, and copy the stream link it shows.
+
+**From the station's own website:** right-click the "Listen live" /
+play button and choose *Copy link address*. If that gives you a
+working audio link, use it directly.
+
+**If that doesn't work, use your browser's DevTools:**
+1. Open the station's site, press `F12` (DevTools), go to the
+   **Network** tab.
+2. Type `audio` (or `mp3`, `aac`) in the filter box.
+3. Press play on the station's player.
+4. A request that keeps running (it never finishes downloading) is
+   the stream — right-click it → *Copy* → *Copy URL*. That's your
+   direct link.
+
+**If the only link you have ends in `.pls` or `.m3u`:** that file
+isn't the stream, it's a text file that points to it. Open it in a
+browser or with `curl -sL <url>` — inside you'll see a line like:
+```
+[playlist]
+File1=http://real-stream-url:8000/stream
+```
+Use that `File1=` URL, not the `.pls` link itself.
+
+**Test a link before adding it:**
+```bash
+ffplay "https://the-url-you-found"
+```
+If you hear audio, it's good. (`.m3u8` HLS links usually work fine
+too — it's only `.pls`/`.m3u` playlist files that don't.)
 
 ## Updating
 
